@@ -1,0 +1,43 @@
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+public class MotoVelocidadeTest {
+    private Moto moto;
+
+    @BeforeEach
+    public void setUp() {
+        moto = new Moto("Yamaha");
+        moto.abastecer(5.0); // garantir gasolina para acelerar
+    }
+
+    @Test
+    @Order(1)
+    public void testAcelerarDentroDoLimite() {
+        moto.acelera(50);
+        assertEquals(50, moto.getVelocidade());
+    }
+
+    @Test
+    @Order(2)
+    public void testAcelerarAcimaDoLimite() {
+        moto.acelera(200);
+        assertEquals(150, moto.getVelocidade()); // limite máximo
+    }
+
+    @Test
+    @Order(3)
+    public void testFrearParcialmente() {
+        moto.acelera(100);
+        moto.freia(30);
+        assertEquals(70, moto.getVelocidade());
+    }
+
+    @Test
+    @Order(4)
+    public void testFrearTotalmente() {
+        moto.acelera(50);
+        moto.freia(100);
+        assertEquals(0, moto.getVelocidade());
+    }
+}
