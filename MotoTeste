@@ -1,0 +1,45 @@
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class MotoTest {
+    private Moto moto;
+
+    @BeforeEach
+    public void setUp() {
+        moto = new Moto("Honda");
+    }
+
+    @Test
+    public void testAceleraComGasolinaSuficiente() {
+        moto.abastecer(1.0);
+        moto.acelera(50);
+        assertEquals(50, moto.getVelocidade());
+        assertTrue(moto.getGasolina() < 1.0);
+    }
+
+    @Test
+    public void testAceleraSemGasolina() {
+        moto.acelera(50);
+        assertEquals(0, moto.getVelocidade());
+    }
+
+    @Test
+    public void testFreia() {
+        moto.abastecer(1.0);
+        moto.acelera(100);
+        moto.freia(30);
+        assertEquals(70, moto.getVelocidade());
+    }
+
+    @Test
+    public void testAbastecerNegativo() {
+        assertThrows(RuntimeException.class, () -> moto.abastecer(-5));
+    }
+
+    @Test
+    public void testAbastecerLimiteTanque() {
+        moto.abastecer(40.0);
+        assertEquals(30.0, moto.getGasolina());
+    }
+}
